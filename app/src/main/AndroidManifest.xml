@@ -10,13 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppMaterialTheme">
         <activity android:name=".views.LoginPage">
+
+        </activity>
+        <activity android:name=".views.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".views.SplashScreen"></activity>
         <activity android:name=".views.SignupPage">
 
         </activity>

@@ -17,7 +17,9 @@ public class SplashScreen extends AppCompatActivity {
 
     Animation sideAnim,bottomAnim;
 
-    private static int SPLASH_TIMER=3000;
+    private static final long SPLASH_TIMER=3000;
+    private static long mTimeBeforeDelay;
+    private  Handler mSplashHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +36,61 @@ public class SplashScreen extends AppCompatActivity {
 
         splashImage.setAnimation(sideAnim);
 
-        new Handler().postDelayed(new Runnable() {
+        //create a new Handler
+
+        mSplashHandler=new Handler();
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//                    Intent intent=new Intent(SplashScreen.this, OnBoardingPage.class);
+//                    startActivity(intent);
+//
+//                    finish();
+//
+//            }
+//        },SPLASH_TIMER);
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //the first time mTimeBeforeDelay will be 0
+        long gapTime=System.currentTimeMillis()-mTimeBeforeDelay;
+
+        if (gapTime>SPLASH_TIMER)
+        {
+            gapTime=SPLASH_TIMER;
+        }
+
+        mSplashHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-
-                    Intent intent=new Intent(SplashScreen.this, OnBoardingPage.class);
+                Intent intent=new Intent(SplashScreen.this, OnBoardingPage.class);
                     startActivity(intent);
 
-                    finish();
-
+                   SplashScreen.this.finish();
             }
-        },SPLASH_TIMER);
+        },gapTime);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSplashHandler.removeCallbacksAndMessages(null);
+    }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSplashHandler.removeCallbacksAndMessages(null);
     }
 }
